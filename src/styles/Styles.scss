@@ -1,0 +1,10 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Đặt lại đường dẫn cho font (không cần thay đổi nếu cấu trúc thư mục không thay đổi)
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+
+// Import các module SCSS của FontAwesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";

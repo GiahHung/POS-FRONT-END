@@ -1,0 +1,38 @@
+.home-container {
+  background-color: rgb(42, 40, 40);
+  height: 100vh;
+  .shape {
+    cursor: pointer;
+    margin-right: 20px;
+    border-radius: 20px;
+    height: 150px;
+    width: 150px;
+    border: 2px solid rgb(51, 126, 238);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    transition: all 0.1s ease; // Hiệu ứng chuyển động mượt khi hover
+    i {
+      font-size: 5rem;
+      color: rgb(51, 126, 238);
+    }
+
+    &:hover {
+      height: 152px;
+      width: 152px;
+      border: 2px solid rgb(110, 164, 245);
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+      i {
+        color: rgb(80, 144, 239);
+      }
+    }
+  }
+  .title {
+    font-size: 1.2rem;
+    width: 150px;
+    text-align: center;
+    margin-top: 5px;
+    color: rgb(142, 174, 237);
+  }
+}

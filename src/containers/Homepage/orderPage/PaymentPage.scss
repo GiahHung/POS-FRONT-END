@@ -1,0 +1,97 @@
+.content-top {
+  .btn-back {
+    padding: 6px 32px;
+  }
+  .title {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .btn-validate {
+    padding: 6px 32px;
+    &:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+  }
+}
+.content-bottom {
+ 
+  .content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    .btn-payment {
+      text-align: left;
+      padding-left: 20px;
+      height: 60px;
+      width: 50%;
+      background-color: rgb(89, 92, 92);
+    }
+    .btn-is-payment {
+      text-align: left;
+      padding-left: 20px;
+      height: 60px;
+      width: 50%;
+      background-color: rgb(53, 215, 77);
+    }
+  }
+  .content-right {
+    border: 2px solid rgb(167, 163, 163);
+    .total-amount {
+      text-align: center;
+      border-bottom: 2px solid rgb(174, 169, 169);
+      .number {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: rgb(37, 196, 53);
+      }
+    }
+    .change {
+      margin-top: 100px;
+      .inp-number {
+        border: none;
+        font-size: 20px;
+        outline: none;
+        border-radius: 10px;
+        padding: 10px 10px;
+        transition: box-shadow 0.2s ease-in-out;
+
+        &:hover {
+          box-shadow: 0 0 10px rgba(40, 205, 40, 0.7); /* Hiệu ứng lan rộng */
+        }
+      
+      }
+      .change-number {
+        font-size: 25px;
+        color: rgb(37, 196, 53);
+        padding-left: 10px;
+        font-weight: 500;
+        margin-top: 20px;
+      }
+    }
+    .customer-name{
+         margin-top: 100px;
+         background-color: rgb(37, 196, 53);
+         width: 40%;
+         height: 80px;
+         text-align: center;
+         padding-top: 25px;
+         border-radius: 5px;
+         .icon{
+            font-size: 20px;
+            height: 40px;
+            width: 40px;
+            margin-left: 20px;
+            border-radius: 100%;
+            padding-top: 2px;
+            background-color:  rgb(32, 164, 45);
+         }
+         .customer{
+            font-size: 20px;
+            color: white;
+            padding-left: 40px;
+         }
+    }
+  }
+}

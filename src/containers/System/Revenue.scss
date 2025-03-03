@@ -1,0 +1,51 @@
+.revenue-container {
+  background-color: rgb(239, 242, 245);
+  height: 94vh;
+
+  .content-top {
+    // height: 40vh;
+    margin-top: 30px;
+    .total-order {
+      margin-top: 40px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+      .total-order-detail{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 5px 30px;
+      }
+    }
+  }
+  .content-down {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+    .detail-revenue {
+      margin: 10px 10px;
+      .date {
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .total-revenue {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .detail {
+        font-size: 16px;
+        font-weight: 400;
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+}

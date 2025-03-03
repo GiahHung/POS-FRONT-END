@@ -1,0 +1,60 @@
+.content-top {
+  margin-top: 90px;
+  margin-bottom: 50px;
+  .add-new {
+    border: 1px solid rgb(31, 164, 247);
+    border-radius: 7px;
+    padding: 0 9px;
+    font-size: 2rem;
+    color: rgb(31, 164, 247);
+    &:hover {
+      background-color: rgb(31, 85, 247);
+      color: white;
+      transition: all 0.1s;
+    }
+  }
+}
+.paginate-custom {
+  margin-top: 50px;
+  .page-link {
+    color: black !important;
+  }
+}
+
+.file-input {
+  display: none; /* Ẩn input file mặc định */
+}
+
+.file-label {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #008cff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.file-label:hover {
+  background: rgba(0, 140, 255, 0.1);
+}
+
+.plus-icon {
+  font-size: 32px;
+  color: #008cff;
+  font-weight: bold;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.btn-sort {
+  &:hover {
+    color: rgb(40, 158, 204);
+  }
+}

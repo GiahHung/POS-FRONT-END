@@ -1,0 +1,36 @@
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* Hoặc màu nền phù hợp với giao diện */
+  z-index: 10;
+}
+.modal-detail-order{
+  .total-amount{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 17px;
+    .total-number{
+      padding-right: 50px;
+    }
+  }
+}
+.datetimepicker-container {
+  position: relative;
+  width: 250px;
+}
+
+.datetime-input {
+  width: 100%;
+  padding-right: 30px;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
