@@ -14,8 +14,10 @@ function PaymentPage() {
   const [payment, setPayment] = useState([]);
   const [paymentId, setPaymentId] = useState("");
   const [customerChange, setCustomerChange] = useState(0);
+  const currentOrder = useSelector((state) => state.user.order);
   useEffect(() => {
     dispatch(actions.fetchPaymentId());
+    dispatch(actions.fetchOneOrder(order.id));
   }, [dispatch]);
   useEffect(() => {
     setPayment(arrPaymentRedux || []);
@@ -31,11 +33,15 @@ function PaymentPage() {
     });
   };
   const handleCompletePayment = async () => {
-    const res = await handlePayment({ id: order.id, paymentId: paymentId,totalAmount:order.totalAmount });
-    if(res && res.errCode === 0){
-      navigate('/home-order')
-    }else{
-      alert(res.errMessage)
+    const res = await handlePayment({
+      id: order.id,
+      paymentId: paymentId,
+      totalAmount: order.totalAmount,
+    });
+    if (res && res.errCode === 0) {
+      navigate("/home-order");
+    } else {
+      alert(res.errMessage);
     }
   };
   return (
@@ -124,7 +130,11 @@ function PaymentPage() {
                     </div>
                     <div className="col-8 d-flex justify-content-start customer">
                       {" "}
-                      aaaaaaaaaaaaa
+                      {currentOrder.customerName === "" ? (
+                        <span>Customer</span>
+                      ) : (
+                        <span>{currentOrder.customerName}</span>
+                      )}
                     </div>
                   </div>
                 </div>

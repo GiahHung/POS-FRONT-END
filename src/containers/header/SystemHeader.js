@@ -36,6 +36,11 @@ function SystemHeader() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
+                <Link className="nav-link active" to="/home">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link active" to="/system/revenue">
                   Revenue
                 </Link>
@@ -74,12 +79,12 @@ function SystemHeader() {
                     </Link>
                   </li>
                   <li>
-                    <Link class="dropdown-item " to="/system/pc">
+                    <Link class="dropdown-item " to="/system/manage-customer">
                       Customer
                     </Link>
                   </li>
                   <li>
-                    <Link class="dropdown-item " to="/system/pc">
+                    <Link class="dropdown-item " to="/system/manage-voucher">
                       Voucher
                     </Link>
                   </li>
@@ -96,7 +101,7 @@ function SystemHeader() {
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#" onClick={handleLogout}>
-                  <i class="fa-solid fa-right-from-bracket"></i> Login
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
               </li>
             </ul>

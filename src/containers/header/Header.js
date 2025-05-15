@@ -1,23 +1,28 @@
 import React, { Fragment, useState } from "react";
 import "./Header.scss";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as actions from "../../store/actions";
 
 function Header() {
-    const userInfo = useSelector((state) => state.user.userInfo);
-     const dispatch = useDispatch();
-     const handleLogout = () => {
-       dispatch(actions.processLogout());
-     };
-     const handleSearchChange = (e) => {
-       const query = e.target.value;
-        dispatch(actions.fetchAllProduct(query));
-     };
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(actions.processLogout());
+  };
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    dispatch(actions.fetchAllProduct(query));
+  };
+    const handleNavigateToHome = () => {
+      navigate("/home");
+    };
   return (
     <Fragment>
       <div className="header-container ">
         <div className="header-content">
-          <div className="logo">
+          <div className="logo" onClick={handleNavigateToHome}>
             <i class="fa-solid fa-home"></i>
             <span>POS</span>
           </div>

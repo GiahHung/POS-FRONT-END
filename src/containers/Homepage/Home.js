@@ -1,16 +1,21 @@
 import React, { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Home.scss";
-import * as actions from "../../store/actions";
+import { toast } from "react-toastify";
 import Header from "../header/Header";
 function Home() {
+  const userInfo = useSelector((state) => state.user.userInfo);
   const navigate = useNavigate();
   const handleNavigateToOrder = () => {
     navigate("/home-order");
   };
   const handleNavigateToSystem = () => {
-    navigate("/system");
+    if (userInfo.data.roleId === "R1") {
+      navigate("/system");
+    } else {
+      toast.error("You are not allowed to access this page");
+    }
   };
   return (
     <Fragment>

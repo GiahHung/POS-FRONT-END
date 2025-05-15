@@ -3,14 +3,20 @@
   height: 94vh;
 
   .content-top {
-    // height: 40vh;
     margin-top: 30px;
+    .chart {
+      height: 40vh;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+      margin-top: 35px;
+    }
     .total-order {
       margin-top: 40px;
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
-      .total-order-detail{
+      .total-order-detail {
         display: flex;
         justify-content: space-between;
         align-items: center;

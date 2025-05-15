@@ -73,7 +73,34 @@ const handleGetAllOrderService = (date) => {
   return axios.get(`/api/get-all-orders?date=${date}`);
 };
 const handleGetRevenueService = () => {
-  return axios.get('/api/get-revenue');
+  return axios.get("/api/get-revenue");
+};
+
+const handleGetAllRevenueService = () => {
+  return axios.get("/api/get-all-revenue");
+};
+
+const handleDeleteCustomerService = (id) => {
+  return axios.delete(`/api/customer/deleteCustomer?id=${id}`);
+};
+const handleUpdateCustomerService = (data) => {
+  return axios.put("/api/customer/updateCustomer", data);
+};
+const handleDeleteOrderService = (id) => {
+  return axios.delete(`/api/delete-order?id=${id}`);
+};
+
+const handleGetVoucherService = () => {
+  return axios.get("/api/get-voucher");
+};
+const handleCreateVoucherService = (data) => {
+  return axios.post("/api/create-voucher", data);
+};
+const handleUpdateVoucherService = (data) => {
+  return axios.put('/api/update-voucher',data);
+};
+const handleDeleteVoucherService = (id) => {
+  return axios.delete(`/api/delete-voucher?id=${id}`);
 };
 export {
   handleGetAllCodeService,
@@ -91,4 +118,12 @@ export {
   deleteEmployeeDiscountService,
   handleGetAllOrderService,
   handleGetRevenueService,
+  handleGetAllRevenueService,
+  handleUpdateCustomerService,
+  handleDeleteCustomerService,
+  handleDeleteOrderService,
+  handleGetVoucherService,
+  handleDeleteVoucherService,
+  handleUpdateVoucherService,
+  handleCreateVoucherService,
 };

@@ -117,7 +117,7 @@ function Product() {
         image: base64String,
       });
       if (res && res.errCode === 0) {
-        toast.success(res.message);
+        toast.success(res.errMessage);
       } else {
         toast.error(res.errMessage);
       }
@@ -130,7 +130,7 @@ function Product() {
         image: base64String,
       });
       if (res && res.errCode === 0) {
-        toast.success(res.message);
+        toast.success(res.errMessage);
       } else {
         toast.error(res.errMessage);
       }

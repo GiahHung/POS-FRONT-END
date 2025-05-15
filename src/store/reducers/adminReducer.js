@@ -10,6 +10,8 @@ const initialState = {
   discount: "",
   orders: "",
   revenue: "",
+  arrRevenue: [],
+  arrVoucher: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -97,7 +99,27 @@ const adminReducer = (state = initialState, action) => {
     case actionTypes.FETCH_REVENUE_FAIL:
       return {
         ...state,
-        revenue: '',
+        revenue: "",
+      };
+    case actionTypes.FETCH_ALL_REVENUE_SUCCESS:
+      return {
+        ...state,
+        arrRevenue: action.data,
+      };
+    case actionTypes.FETCH_ALL_REVENUE_FAIL:
+      return {
+        ...state,
+        arrRevenue: "",
+      };
+    case actionTypes.FETCH_VOUCHER_SUCCESS:
+      return {
+        ...state,
+        arrVoucher: action.data,
+      };
+    case actionTypes.FETCH_VOUCHER_FAIL:
+      return {
+        ...state,
+        arrVoucher: "",
       };
     default:
       return state;

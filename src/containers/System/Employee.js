@@ -335,14 +335,25 @@ function Employee() {
               </div>
               <div className="mb-2 form-group">
                 <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleOnChange}
-                />
+                {action === CRUD_ACTION.CREATE ? (
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleOnChange}
+                  />
+                ) : (
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    placeholder="Password"
+                    value={formData.password}
+                    disabled
+                  />
+                )}
               </div>
               <div className="mb-2 form-group">
                 <label>Role</label>

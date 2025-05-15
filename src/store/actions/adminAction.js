@@ -6,6 +6,8 @@ import {
   handleGetEmployeeDiscountService,
   handleGetAllOrderService,
   handleGetRevenueService,
+  handleGetAllRevenueService,
+  handleGetVoucherService,
 } from "../../services/adminServices";
 
 export const fetchCategoryId = () => {
@@ -175,7 +177,7 @@ export const fetchAllOrder = (date) => {
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_ALL_ORDER_SUCCESS,
-          data: res.data
+          data: res.data,
         });
       } else {
         dispatch({
@@ -209,6 +211,52 @@ export const fetchRevenue = () => {
       console.log("FETCH_REVENUE_FAIL: ", e);
       dispatch({
         type: actionTypes.FETCH_REVENUE_FAIL,
+      });
+    }
+  };
+};
+
+export const fetchAllRevenue = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await handleGetAllRevenueService();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALL_REVENUE_SUCCESS,
+          data: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_ALL_REVENUE_FAIL,
+        });
+      }
+    } catch (e) {
+      console.log("FETCH_ALL_REVENUE_FAIL: ", e);
+      dispatch({
+        type: actionTypes.FETCH_ALL_REVENUE_FAIL,
+      });
+    }
+  };
+};
+
+export const fetchVoucher = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await handleGetVoucherService();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_VOUCHER_SUCCESS,
+          data: res.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_VOUCHER_FAIL,
+        });
+      }
+    } catch (e) {
+      console.log("FETCH_VOUCHER_FAIL: ", e);
+      dispatch({
+        type: actionTypes.FETCH_VOUCHER_FAIL,
       });
     }
   };

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { path } from "../utils/constant";
 import Login from "./Auth/Login";
 import Home from "../containers/Homepage/Home";
@@ -14,12 +14,15 @@ import Employee from "./System/Employee";
 import PaymentPage from "./Homepage/orderPage/PaymentPage";
 import EmployeeDiscount from "./System/EmployeeDiscount";
 import ManageOrder from "./System/ManageOrder";
-
+import RestrictedAccess from "../containers/RestrictedAccess ";
+import CustomerPage from "./Homepage/orderPage/CustomerPage";
+import Customer from "./System/Customer";
+import Voucher from "./System/Voucher";
 class App extends Component {
-  state = {};
   render() {
-    const { systemMenuPath } = this.props;
-    const { isLoggedIn } = this.props;
+    const { systemMenuPath, isLoggedIn, userInfo } = this.props;
+    const roleId = userInfo?.data?.roleId; // Lấy roleId từ Redux
+
     return (
       <Fragment>
         <BrowserRouter>
@@ -34,23 +37,33 @@ class App extends Component {
                     <Route path={path.ORDER} element={<Order />} />
                     <Route path="/home-order" element={<HomeOrder />} />
                     <Route path="/payment" element={<PaymentPage />} />
-                    <Route path="/system/*" element={<System />}>
-                      <Route
-                        path="employee-discount"
-                        element={<EmployeeDiscount />}
-                      />
-                      <Route path="revenue" element={<Revenue />} />
-                      <Route path="manage-product" element={<Product />} />
-                      <Route path="manage-employee" element={<Employee />} />
-                      <Route path="manage-order" element={<ManageOrder />} />
-                      <Route
-                        path="*"
-                        element={<Navigate to="/system/revenue" />}
-                      />
-                    </Route>
+                    <Route path="/customer-page" element={<CustomerPage />} />
+
+                    {/* Kiểm tra quyền truy cập vào System */}
+                    {roleId === "R1" ? (
+                      <Route path="/system/*" element={<System />}>
+                        <Route
+                          path="employee-discount"
+                          element={<EmployeeDiscount />}
+                        />
+                        <Route path="revenue" element={<Revenue />} />
+                        <Route path="manage-product" element={<Product />} />
+                        <Route path="manage-employee" element={<Employee />} />
+                        <Route path="manage-order" element={<ManageOrder />} />
+                        <Route path="manage-customer" element={<Customer />} />
+                        <Route path="manage-voucher" element={<Voucher />} />
+                        <Route
+                          path="*"
+                          element={<Navigate to="/system/revenue" />}
+                        />
+                      </Route>
+                    ) : (
+                      <Route path="/system/*" element={<RestrictedAccess />} />
+                    )}
                   </>
                 )}
 
+                {/* Điều hướng nếu chưa đăng nhập */}
                 <Route
                   path="*"
                   element={
@@ -83,11 +96,8 @@ const mapStateToProps = (state) => {
   return {
     systemMenuPath: state.app.systemMenuPath,
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo, // Lấy userInfo từ Redux
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

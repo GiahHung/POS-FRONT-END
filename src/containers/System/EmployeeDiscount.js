@@ -44,11 +44,10 @@ function EmployeeDiscount() {
     );
   };
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
-      [e.target.name]: e.target.checked,
+      [name]: type === "checkbox" ? checked : value, // Phân biệt checkbox và input text/number
     }));
     setFormDataSort((prevData) => ({
       ...prevData,

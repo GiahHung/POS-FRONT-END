@@ -5,24 +5,26 @@ import * as actions from "../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Orders.scss";
-import tra from "../../../assets/traBerry.jpg";
 
 function Order() {
   const location = useLocation();
   const navigate = useNavigate();
-  // Nếu state không có, đảm bảo cung cấp giá trị mặc định
+
   const { orderId } = location.state || {};
   const dispatch = useDispatch();
   //product
   const arrProduct = useSelector((state) => state.user.products);
   const [listProduct, setListProduct] = useState([]);
   //category
-  const arrProductCategory = useSelector((state) => state.user.productCategory);
   const arrCategory = useSelector((state) => state.admin.categoryId);
   const [category, setCategory] = useState([]);
   // order
   const currentOrder = useSelector((state) => state.user.order);
   const [detailOrder, setDetailOrder] = useState([]);
+  const [formData, setFormData] = useState({
+    discount: "",
+    voucherCode: "",
+  });
 
   useEffect(() => {
     dispatch(actions.fetchAllProduct(""));
@@ -32,7 +34,7 @@ function Order() {
   useEffect(() => {
     setListProduct(arrProduct || []);
     setCategory(arrCategory || []);
-    setDetailOrder(currentOrder.orderDetails || []);
+    setDetailOrder(currentOrder.listOrder || []);
   }, [arrProduct, arrCategory, currentOrder]);
 
   const handleGetProductCategory = (type) => {
@@ -50,14 +52,39 @@ function Order() {
       })
     );
   };
-  const handleLinkToPayment = () =>{
+  const handleLinkToPayment = () => {
     navigate("/payment", {
       state: {
         order: currentOrder,
-
       },
     });
-  }
+  };
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSave = () => {
+    dispatch(actions.discountEmployee(formData.discount, currentOrder.id));
+  };
+  const handleSaveVoucher = () => {
+    dispatch(actions.discountVoucher(formData.voucherCode, currentOrder.id));
+  };
+
+  const handleRemoveProductFromOrder = (productId) => {
+    dispatch(
+      actions.removeProductFromOrder({ orderId: orderId, productId: productId })
+    );
+  };
+  const handleNavigateToCustomerPage = () => {
+    navigate("/customer-page", {
+      state: {
+        order: currentOrder,
+      },
+    });
+  };
   console.log("orderid", orderId);
   return (
     <Fragment>
@@ -80,12 +107,37 @@ function Order() {
                             {" "}
                             {Number(item.totalPrice).toLocaleString("vi-VN") +
                               "đ"}
+                            <span>
+                              <i
+                                class="fa-solid fa-trash text-danger ms-1"
+                                onClick={() => {
+                                  handleRemoveProductFromOrder(item.product.id);
+                                }}
+                              ></i>
+                            </span>
                           </div>
                         </div>
-                        <p className="note"> - aaaaaaaa aaaaaa</p>
+                        <p className="note"></p>
                       </div>
                     );
                   })}
+                {currentOrder.discount !== 0 ? (
+                  <div className="detail-product">
+                    <div className="product-info">
+                      {" "}
+                      <div>{currentOrder.description}</div>
+                      <div></div>
+                      <div>
+                        {" "}
+                        -
+                        {Number(currentOrder.discount).toLocaleString("vi-VN") +
+                          "đ"}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
               </div>
               <div className="total">
                 {Number(currentOrder.totalAmount).toLocaleString("vi-VN") + "đ"}
@@ -99,9 +151,14 @@ function Order() {
                     <i className="fa-solid fa-note-sticky"></i> Customer note
                   </button>
                 </div>
-                <div className="col-6">
+                <div
+                  className="col-6"
+                  data-bs-toggle="modal"
+                  data-bs-target="#OrderModal"
+                >
                   <button className="btn btn-secondary  btn-square">
-                    <i className="fa-solid fa-qrcode"></i> Enter code
+                    <i className="fa-solid fa-qrcode"></i>
+                    Enter code
                   </button>
                 </div>
                 <div className="col-6">
@@ -109,20 +166,122 @@ function Order() {
                     <i className="fa-solid fa-star"></i> Reward
                   </button>
                 </div>
-                <div className="col-6">
+                <div
+                  className="col-6"
+                  data-bs-toggle="modal"
+                  data-bs-target="#VoucherModal"
+                >
                   <button className="btn btn-secondary  btn-square">
                     <i className="fa-solid fa-gift"></i> Gift card
                   </button>
                 </div>
                 {/* Button cuối cùng: to nhất, chiếm 2 cột */}
                 <div className="col-12">
-                  <button className="btn btn-secondary  btn-square">
-                    <i className="fa-solid fa-user"></i> Khách lẻ
+                  <button
+                    className={
+                      currentOrder.customerName === ""
+                        ? "btn btn-secondary  btn-square"
+                        : "btn btn-success  btn-square"
+                    }
+                    onClick={() => {
+                      handleNavigateToCustomerPage();
+                    }}
+                  >
+                    <i className="fa-solid fa-user"></i>{" "}
+                    {currentOrder.customerName === "" ? (
+                      <span>Customer</span>
+                    ) : (
+                      <span>{currentOrder.customerName}</span>
+                    )}
                   </button>
                 </div>
                 <div className="col-12" onClick={handleLinkToPayment}>
                   <button className="btn btn-secondary  btn-square btn-pay">
                     <i class="fa-solid fa-money-check-dollar"></i>Payment
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="modal fade mt-5" id="OrderModal" tabIndex="-1">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">ENTER DISCOUNT CODE</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="mb-2 form-group">
+                    <input
+                      type="text"
+                      name="discount"
+                      className="form-control"
+                      placeholder="Discount code..."
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    // onClick={handleCancelState}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className={"btn btn-success"}
+                    onClick={handleSave}
+                    data-bs-dismiss="modal"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="modal fade mt-5" id="VoucherModal" tabIndex="-1">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">ENTER GIFT CARD</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="mb-2 form-group">
+                    <input
+                      type="text"
+                      name="voucherCode"
+                      className="form-control"
+                      placeholder="Voucher code..."
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className={"btn btn-success"}
+                    onClick={handleSaveVoucher}
+                    data-bs-dismiss="modal"
+                  >
+                    Save
                   </button>
                 </div>
               </div>

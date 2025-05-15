@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ManageOrder.scss";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
-import {
-  createEmployeeDiscountService,
-  editEmployeeDiscountService,
-  deleteEmployeeDiscountService,
-} from "../../services/adminServices";
+import { handleDeleteOrderService } from "../../services/adminServices";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,38 +17,8 @@ function ManageOrder() {
     detailOrder: [],
   });
   const [arrOrder, setArrOrder] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
   const arrOderRedux = useSelector((state) => state.admin.orders);
   const [viewOrderId, setViewOrderId] = useState("");
-  const [formDataSort, setFormDataSort] = useState({
-    sort: "id",
-    direction: "desc",
-  });
-  const [searchQuery, setSearchQuery] = useState("");
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    // dispatch(
-    //   actions.fetchDiscount(
-    //     1,
-    //     5,
-    //     formDataSort.sort,
-    //     formDataSort.direction,
-    //     searchQuery
-    //   )
-    // );
-  };
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-      [e.target.name]: e.target.checked,
-    }));
-    setFormDataSort((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   useEffect(() => {
     dispatch(actions.fetchAllOrder(""));
@@ -66,48 +32,27 @@ function ManageOrder() {
 
   const handleEdit = (order) => {
     setFormData({
-      createdAt: order.createdAt,
-      employee: order.employeeId,
-      customer: order.customerId,
-      payment: order.payment.value,
+      createdAt: order.date,
+      employee: order.employeeName,
+      customer: order.customerName,
+      payment: order.payment,
       totalPrice: order.totalAmount,
-      detailOrder: order.orderDetails,
+      detailOrder: order.listOrder,
     });
     setViewOrderId(order.id);
   };
-  // const handleDelete = async (discount) => {
-  //   const confirmed = window.confirm("Do you want to delete?");
-  //   if (!confirmed) {
-  //     return;
-  //   }
-  //   const res = await deleteEmployeeDiscountService(discount.id);
-  //   if (res && res.errCode === 0) {
-  //     dispatch(
-  //       actions.fetchDiscount(
-  //         page,
-  //         5,
-  //         formDataSort.sort,
-  //         formDataSort.direction,
-  //         searchQuery
-  //       )
-  //     );
-  //     toast.success("Delete success");
-  //   } else {
-  //     toast.error(res.errMessage);
-  //   }
-  // };
-
-  const handleSort = () => {
-    // Tính toán giá trị mới của direction
-    const newDirection = formDataSort.direction === "desc" ? "asc" : "desc";
-
-    // Cập nhật state với giá trị mới
-    setFormDataSort((prevData) => ({
-      ...prevData,
-      direction: newDirection,
-    }));
-
-    dispatch(actions.fetchAllOrder());
+  const handleDeleteOrder = async (id) => {
+    try {
+      const res = await handleDeleteOrderService(id);
+      if (res.errCode === 0) {
+        toast.success("Delete order success!");
+        dispatch(actions.fetchAllOrder(""));
+      } else {
+        toast.error("Delete order failed!");
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
   console.log(arrOderRedux);
   return (
@@ -203,8 +148,8 @@ function ManageOrder() {
                 return (
                   <tr>
                     <th>{item.id}</th>
-                    <td>{item.createdAt}</td>
-                    <td>{item.payment.value}</td>
+                    <td>{item.date}</td>
+                    <td>{item.payment}</td>
                     <td>
                       {" "}
                       {Number(item.totalAmount).toLocaleString("vi-VN") + "đ"}
@@ -218,7 +163,14 @@ function ManageOrder() {
                       >
                         Detail
                       </button>
-                      <button className="btn btn-danger">Delete</button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          handleDeleteOrder(item.id);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 );
